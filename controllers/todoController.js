@@ -93,6 +93,7 @@ exports.updateTodo = async (req, res) => {
 exports.deleteTodo = async (req, res) => {
     try {
         const { id } = req.params;
+
         await Todo.findByIdAndDelete(id);
 
         res.status(200).json({
@@ -102,6 +103,22 @@ exports.deleteTodo = async (req, res) => {
     catch (err) {
         res.status(400).json({
             status: 'failed to delete todo',
+            message: err
+        })
+    }
+}
+
+exports.deleteAll = async (req, res) => {
+    try {
+        await Todo.deleteMany();
+        res.status(200).json({
+            status: 'success',
+            message: 'cleared todo list'
+        })
+    }
+    catch (err) {
+        res.status(400).json({
+            status: 'failed to delete all todos',
             message: err
         })
     }
